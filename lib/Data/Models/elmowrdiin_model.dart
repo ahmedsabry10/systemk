@@ -1,4 +1,5 @@
 class SupplierModel {
+  String? uId;
   String? name;
   String? branch;
   String? region;
@@ -13,6 +14,7 @@ class SupplierModel {
 
 
   SupplierModel({
+    this.uId,
     this.name,
     this.branch,
     this.region,
@@ -27,6 +29,7 @@ class SupplierModel {
 
   SupplierModel.fromJson ( Map <String, dynamic>  json)
   {
+    uId = json ['uId'];
     name = json ['name'];
     branch = json ['branch'];
     region = json ['region'];
@@ -45,6 +48,7 @@ class SupplierModel {
   Map <String, dynamic> toMap()
   {
     return {
+      'uId':uId,
       'name':name,
       'branch':branch,
       'region':region,

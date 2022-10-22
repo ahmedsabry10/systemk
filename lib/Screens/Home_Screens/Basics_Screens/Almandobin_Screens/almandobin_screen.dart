@@ -84,8 +84,7 @@ class _RepresentativeScreenState extends State<RepresentativeScreen> {
   var formKey = GlobalKey<FormState>();
 
   var nameController = TextEditingController(); //الاسم
-  var governorateController = TextEditingController(); //
-  // محافظه
+  var governorateController = TextEditingController(); // محافظه
   var regionController = TextEditingController();
 
   var debtorController = TextEditingController(); //مدين

@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:systemk/Data/Cubit/Home_Cubit/app_states.dart';
 import 'package:systemk/Data/Models/alasnaf_model.dart';
 import 'package:systemk/Data/Models/almandobin_model.dart';
+import 'package:systemk/Data/Models/el3mlaa_model.dart';
 import 'package:systemk/Data/Models/elmowrdiin_model.dart';
 import 'package:systemk/Data/Models/user_model.dart';
 import 'package:systemk/Data/Shared/Component/reusable_component.dart';
@@ -227,7 +228,6 @@ class AppCubit extends Cubit<AppStates> {
     TypesModel model = TypesModel(
       name: name,
       type: type,
-      id: id,
       smallUnit: smallUnit,
       bigUnit: bigUnit,
       dateTime: dateTime,
@@ -348,6 +348,53 @@ class AppCubit extends Cubit<AppStates> {
       emit(CreateSupplierSuccessState());
     }).catchError((error) {
       emit(CreateSupplierErrorState());
+    });
+  }
+
+
+
+
+
+
+
+  // انشاء عميل جديد
+  ClintModel? clintModel ;
+
+
+  void createClint({
+    required String name,
+    required String branch,
+    required String region,
+    required String phoneNumber,
+    required String debtor,
+    required String creditor,
+    required String status,
+    required String condition,
+    required String effect,
+  }) {
+    emit(CreateClintLoadingState());
+
+    ClintModel model = ClintModel(
+      name: name,
+      branch: branch,
+      region:region,
+      phoneNumber:phoneNumber,
+      debtor: debtor,
+      creditor:creditor,
+      status:status,
+      condition:condition,
+      effect:effect,
+
+    );
+
+    FirebaseFirestore.instance.collection('users')
+        .doc(userModel!.uId)
+        .collection('Clint')
+        .add(model.toMap())
+        .then((value) {
+      emit(CreateClintSuccessState());
+    }).catchError((error) {
+      emit(CreateClintErrorState());
     });
   }
 }

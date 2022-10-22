@@ -1,6 +1,6 @@
 class TypesModel {
   String? name;
-  String? id;
+  String? uId;
   String? type;
   String? smallUnit;
   String? bigUnit;
@@ -18,7 +18,7 @@ class TypesModel {
 
   TypesModel({
     this.name,
-    this.id,
+    this.uId,
     this.type,
     this.smallUnit,
     this.bigUnit,
@@ -38,7 +38,7 @@ class TypesModel {
   TypesModel.fromJson ( Map <String, dynamic>  json)
   {
     name = json ['name'];
-    id = json ['id'];
+    uId = json ['uId'];
     type = json ['type'];
     smallUnit = json ['smallUnit'];
     bigUnit = json ['bigUnit'];
@@ -62,7 +62,7 @@ class TypesModel {
   {
     return {
       'name':name,
-      'id':id,
+      'uId':uId,
       'type':type,
       'smallUnit':smallUnit,
       'bigUnit':bigUnit,

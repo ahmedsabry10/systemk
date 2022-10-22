@@ -1,41 +1,57 @@
 class ClintModel {
-  String? name;
   String? uId;
-  String? image;
-  String? dateTime;
-  String? text;
-  String? postImage;
+  String? name;
+  String? branch;
+  String? status;
+  String? region;
+  String? phoneNumber;
+  String? debtor;
+  String? creditor;
+  String? condition;
+  String? effect;
 
 
 
   ClintModel({
-    this.name,
     this.uId,
-    this.image,
-    this.dateTime,
-    this.text,
-    this.postImage,
+    this.name,
+    this.branch,
+    this.region,
+    this.phoneNumber,
+    this.debtor,
+    this.creditor,
+    this.condition,
+    this.effect,
+    this.status,
   });
 
   ClintModel.fromJson ( Map <String, dynamic>  json)
   {
-    name = json ['name'];
     uId = json ['uId'];
-    image = json ['image'];
-    dateTime = json ['dateTime'];
-    text = json ['text'];
-    postImage = json ['postImage'];
+    name = json ['name'];
+    branch = json ['branch'];
+    region = json ['region'];
+    phoneNumber = json ['phoneNumber'];
+    debtor = json ['debtor'];
+    creditor = json ['creditor'];
+    condition = json ['condition'];
+    effect = json ['effect'];
+    status = json ['status'];
   }
 
   Map <String, dynamic> toMap()
   {
     return {
-      'name':name,
       'uId':uId,
-      'dateTime':dateTime,
-      'image':image,
-      'text':text,
-      'postImage':postImage,
+      'name':name,
+      'branch':branch,
+      'region':region,
+      'phoneNumber':phoneNumber,
+      'debtor':debtor,
+      'creditor':creditor,
+      'condition':condition,
+      'effect':effect,
+      'status':status
     };
   }
 }

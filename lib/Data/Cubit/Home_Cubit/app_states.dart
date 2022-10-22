@@ -64,4 +64,7 @@ class CreateSupplierLoadingState extends AppStates {}
 class CreateSupplierSuccessState extends AppStates {}
 class CreateSupplierErrorState extends AppStates {}
 
-
+//Clints
+class CreateClintLoadingState extends AppStates {}
+class CreateClintSuccessState extends AppStates {}
+class CreateClintErrorState extends AppStates {}

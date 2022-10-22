@@ -1,4 +1,5 @@
 class RepresentativeModel {
+  String? uId;
   String? name;
   String? branch;
   String? delegateType;
@@ -11,6 +12,7 @@ class RepresentativeModel {
 
 
   RepresentativeModel({
+    this.uId,
     this.name,
     this.branch,
     this.delegateType,
@@ -25,6 +27,7 @@ class RepresentativeModel {
 
   RepresentativeModel.fromJson ( Map <String, dynamic>  json)
   {
+    uId = json ['uId'];
     name = json ['name'];
     branch = json ['branch'];
     delegateType = json ['delegateType'];
@@ -42,6 +45,7 @@ class RepresentativeModel {
   Map <String, dynamic> toMap()
   {
     return {
+      'uId':uId,
       'name':name,
       'branch':branch,
       'delegateType':delegateType,
