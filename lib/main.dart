@@ -4,10 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:systemk/Data/Cubit/Home_Cubit/app_cubit.dart';
-import 'package:systemk/Data/Shared/Constent/constent.dart';
 import 'package:systemk/Data/Shared/Network/cache_helper.dart';
 import 'package:systemk/Screens/Auth_Screens/login_screen.dart';
 import 'package:systemk/Screens/Home_Screens/home_screen.dart';
+
+import 'Data/Shared/Constent/constent.dart';
 
 void main() async {
 
@@ -46,7 +47,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context)=>AppCubit()..getUserData(),
+      create: (BuildContext context)=>AppCubit()..getUserData()..getClint(),
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(

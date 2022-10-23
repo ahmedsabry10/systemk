@@ -1,12 +1,12 @@
 class ClintModel {
-  String? uId;
+  int? uId;
   String? name;
   String? branch;
   String? status;
   String? region;
   String? phoneNumber;
-  String? debtor;
-  String? creditor;
+  dynamic debtor;
+  dynamic creditor;
   String? condition;
   String? effect;
 

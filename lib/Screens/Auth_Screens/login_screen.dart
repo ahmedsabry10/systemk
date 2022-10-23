@@ -3,6 +3,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:systemk/Data/Cubit/Home_Cubit/app_cubit.dart';
 import 'package:systemk/Data/Cubit/Login_Cubit/login_states.dart';
 import 'package:systemk/Data/Shared/Constent/constent.dart';
 import 'package:systemk/Data/Shared/Network/cache_helper.dart';
@@ -48,6 +49,7 @@ class LoginScreen extends StatelessWidget {
                 context,
                 HomeScreen(),
               );
+              AppCubit.get(context).getUserData();
             });
           }
         },

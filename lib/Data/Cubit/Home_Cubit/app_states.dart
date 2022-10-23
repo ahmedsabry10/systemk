@@ -68,3 +68,10 @@ class CreateSupplierErrorState extends AppStates {}
 class CreateClintLoadingState extends AppStates {}
 class CreateClintSuccessState extends AppStates {}
 class CreateClintErrorState extends AppStates {}
+
+
+//get clint
+class GetClintLoadingState extends AppStates {}
+class GetClintSuccessState extends AppStates {}
+class GetClintErrorState extends AppStates {}
+
