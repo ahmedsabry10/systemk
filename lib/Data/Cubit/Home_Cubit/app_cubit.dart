@@ -1,25 +1,17 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:systemk/Data/Cubit/Home_Cubit/app_states.dart';
-import 'package:systemk/Data/Models/alasnaf_model.dart';
-import 'package:systemk/Data/Models/almandobin_model.dart';
-import 'package:systemk/Data/Models/el3mlaa_model.dart';
-import 'package:systemk/Data/Models/elmowrdiin_model.dart';
+
+
 import 'package:systemk/Data/Models/user_model.dart';
 import 'package:systemk/Data/Shared/Component/reusable_component.dart';
 import 'package:systemk/Data/Shared/Constent/constent.dart';
 import 'package:systemk/Data/Shared/Styles/icon_broken.dart';
-import 'package:systemk/Screens/Home_Screens/Basics_Screens/Al3mlaa_Screens/al3mlaa_screen.dart';
-import 'package:systemk/Screens/Home_Screens/Basics_Screens/Alasnaf_Screens/alasnaf_screen.dart';
-import 'package:systemk/Screens/Home_Screens/Basics_Screens/Almandobin_Screens/almandobin_screen.dart';
-import 'package:systemk/Screens/Home_Screens/Basics_Screens/Almowrdiin_Screens/almowrdiin.dart';
-import 'package:systemk/Screens/Home_Screens/Basics_Screens/purchasesScreen.dart';
-import 'package:systemk/Screens/Home_Screens/Basics_Screens/sales_screen.dart';
+
 import 'package:firebase_storage/firebase_storage.dart'as firebase_storage;
 
 
@@ -28,53 +20,7 @@ class AppCubit extends Cubit<AppStates> {
   AppCubit() : super(AppInitialStates());
 
   static AppCubit get(context) => BlocProvider.of(context);
-  int currentIndex = 0;
-  List<Widget> screens = [
-    SalesScreen(), //المبيعات
-    purchasesScreen(),  // المشترياات
-    TypesScreen(), //الاصناف
-    ClintScreen(),
-    RepresentativeScreen(), //العملاء
-    SupplierScreen()
-  ];
 
-  String? valueChoose;
-  List<String> listItem = [
-    'مخزنى',
-    'خدمى - بنود اعمال',
-    'مجمع',
-    'منتج تام',
-    'متعدد'
-  ];
-  String? valueItem;
-
-  void changeIndex(int index) {
-    currentIndex = index;
-    emit(AppChangeButtonNavBarState());
-  }
-
-  List<String> titlePages = [
-    'مبيعات',
-    'مشتريات',
-    'الاصناف',
-    'العملاء',
-    'المندوبين',
-    'الموردين',
-
-
-
-  ];
-
-  List<IconData> icons = [
-    IconBroken.Bag,
-    IconBroken.Buy,
-    IconBroken.Paper,
-    IconBroken.Work,
-    IconBroken.Profile,
-    IconBroken.User,
-
-
-  ];
 
 
 
@@ -201,231 +147,6 @@ class AppCubit extends Cubit<AppStates> {
 
 
 
-  //create Alasnaf
-
-
-  TypesModel? typesModel ;
-
-
-  void createItems({
-    required String name,
-    required String id,
-    required String type,
-    required String smallUnit,
-    required String bigUnit,
-    required String dateTime,
-    required String openingCost,
-    required String store,
-    required String opiningStoreCost,
-    required String limit,
-    required String virtualSalesUnit,
-    required String virtualPurchaseUnit,
-    required String measurementUnit,
-    required String itemCondition,
-    required String effect,
-  }) {
-    emit(CreateItemLoadingState());
-
-    TypesModel model = TypesModel(
-      name: name,
-      type: type,
-      smallUnit: smallUnit,
-      bigUnit: bigUnit,
-      dateTime: dateTime,
-      openingCost: openingCost,
-      store: store,
-      opiningStoreCost: opiningStoreCost,
-      limit:limit,
-      virtualSalesUnit:virtualSalesUnit,
-      virtualPurchaseUnit:virtualPurchaseUnit,
-      measurementUnit:measurementUnit,
-      itemCondition:itemCondition,
-      effect:effect,
-
-    );
-
-    FirebaseFirestore.instance.collection('users')
-        .doc(userModel!.uId)
-        .collection('items')
-        .add(model.toMap())
-        .then((value) {
-      emit(CreateItemSuccessState());
-    }).catchError((error) {
-      emit(CreateItemErrorState());
-    });
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-  //creat almandoob  انشاء مندوب
-  RepresentativeModel? representativeModel ;
-
-
-  void createRepresentative({
-    required String name,
-    required String branch,
-    required String delegateType,
-    required String classification,
-    required String admin,
-    required String region,
-    required String phoneNumber,
-    required String condition,
-    required String effect,
-  }) {
-    emit(CreateRepresentativeLoadingState());
-
-    RepresentativeModel model = RepresentativeModel(
-      name: name,
-      branch: branch,
-      delegateType:delegateType,
-      classification:classification,
-      admin:admin,
-      region:region,
-      phoneNumber:phoneNumber,
-      condition:condition,
-      effect:effect,
-
-    );
-
-    FirebaseFirestore.instance.collection('users')
-        .doc(userModel!.uId)
-        .collection('Representative')
-        .add(model.toMap())
-        .then((value) {
-      emit(CreateRepresentativeSuccessState());
-    }).catchError((error) {
-      emit(CreateRepresentativeErrorState());
-    });
-  }
-
-
-
-
-
-
-  //create suppliers
-
-  SupplierModel? supplierModel ;
-
-
-  void createSupplier({
-    required String name,
-    required String branch,
-    required String region,
-    required String phoneNumber,
-    required String debtor,
-    required String creditor,
-    required String majorResource,
-    required String status,
-    required String condition,
-    required String effect,
-  }) {
-    emit(CreateSupplierLoadingState());
-
-    SupplierModel model = SupplierModel(
-      name: name,
-      branch: branch,
-      region:region,
-      phoneNumber:phoneNumber,
-      debtor: debtor,
-      creditor:creditor,
-      status:status,
-      majorResource:majorResource,
-      condition:condition,
-      effect:effect,
-
-    );
-
-    FirebaseFirestore.instance.collection('users')
-        .doc(userModel!.uId)
-        .collection('Suppliers')
-        .add(model.toMap())
-        .then((value) {
-      emit(CreateSupplierSuccessState());
-    }).catchError((error) {
-      emit(CreateSupplierErrorState());
-    });
-  }
-
-
-
-
-
-
-
-  // انشاء عميل جديد
-  ClintModel? clintModel ;
-
-
-  void createClint({
-    required String name,
-    required String branch,
-    required String region,
-    required String phoneNumber,
-    required String debtor,
-    required String creditor,
-    required String status,
-    required String condition,
-    required String effect,
-  }) {
-    emit(CreateClintLoadingState());
-
-    ClintModel model = ClintModel(
-      name: name,
-      branch: branch,
-      region:region,
-      phoneNumber:phoneNumber,
-      debtor: debtor,
-      creditor:creditor,
-      status:status,
-      condition:condition,
-      effect:effect,
-
-    );
-
-    FirebaseFirestore.instance.collection('users')
-        .doc(userModel!.uId)
-        .collection('Clint')
-        .add(model.toMap())
-        .then((value) {
-      emit(CreateClintSuccessState());
-    }).catchError((error) {
-      emit(CreateClintErrorState());
-    });
-  }
-
-
-
-  //get clint
-
-  List<ClintModel> clint=[];
-  List<String> clintId=[];
-
-
-  void getClint(){
-    emit(GetClintLoadingState());
-    FirebaseFirestore.instance.collectionGroup('Clint').get().then((value) {
-      value.docs.forEach((element) {
-        clint.add(ClintModel.fromJson(element.data()));
-      });
-      emit(GetClintSuccessState());
-    }).catchError((error) {
-      print(error.toString());
-      emit(GetClintErrorState());
-    });
-
-
-  }
 
 
 

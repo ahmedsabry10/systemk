@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 Widget defaultFormField({
   required TextEditingController controller,
@@ -159,7 +160,7 @@ Color chooseToastColor(ToastStates state) {
 
   switch (state) {
     case ToastStates.SUCCESS:
-      color = Colors.green;
+      color = HexColor('#175396');
       break;
     case ToastStates.ERROR:
       color = Colors.red;

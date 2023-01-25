@@ -37,7 +37,12 @@ class LoginScreen extends StatelessWidget {
             );
           }
           if(state is LoginSuccessState)
+
           {
+            showToast(
+              text: "تم تسجيل الدخول بنجاح",
+              state: ToastStates.SUCCESS,
+            );
             CacheHelper.saveData(
               key: 'uId',
               value: state.uId,
@@ -49,6 +54,7 @@ class LoginScreen extends StatelessWidget {
                 context,
                 HomeScreen(),
               );
+
               AppCubit.get(context).getUserData();
             });
           }

@@ -7,6 +7,7 @@ import 'package:systemk/Data/Cubit/Home_Cubit/app_cubit.dart';
 import 'package:systemk/Data/Shared/Network/cache_helper.dart';
 import 'package:systemk/Screens/Auth_Screens/login_screen.dart';
 import 'package:systemk/Screens/Home_Screens/home_screen.dart';
+import 'package:systemk/Screens/views/home_views.dart';
 
 import 'Data/Shared/Constent/constent.dart';
 
@@ -47,7 +48,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context)=>AppCubit()..getUserData()..getClint(),
+      create: (BuildContext context)=>AppCubit()..getUserData(),
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
@@ -92,7 +93,7 @@ class MyApp extends StatelessWidget {
             fontFamily: 'Jannah'
         ),
         debugShowCheckedModeBanner: false,
-        home: startWidget,
+        home: HomeView(),
       ),
     );
   }

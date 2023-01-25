@@ -75,3 +75,9 @@ class GetClintLoadingState extends AppStates {}
 class GetClintSuccessState extends AppStates {}
 class GetClintErrorState extends AppStates {}
 
+//get Items
+
+class GetItemsLoadingState extends AppStates {}
+class GetItemsSuccessState extends AppStates {}
+class GetItemsErrorState extends AppStates {}
+
