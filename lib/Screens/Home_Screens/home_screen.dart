@@ -1,15 +1,9 @@
 
-import 'dart:io';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:dio/dio.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hexcolor/hexcolor.dart';
-import 'package:systemk/Data/Cubit/Home_Cubit/app_cubit.dart';
-import 'package:systemk/Data/Cubit/Home_Cubit/app_states.dart';
-import 'package:systemk/Data/Shared/Component/reusable_component.dart';
-import 'package:systemk/Data/Shared/Styles/icon_broken.dart';
-import 'package:systemk/Screens/Auth_Screens/login_screen.dart';
+import 'package:gallery_saver/gallery_saver.dart';
+import 'package:path_provider/path_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -17,118 +11,97 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final _advancedDrawerController = AdvancedDrawerController();
+
+  late Future<ListResult>futureFiles;
+  Map<int ,double> downloadProgress={};
+
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (BuildContext context) =>
-      AppCubit()
-        ..getUserData(),
-      child: BlocConsumer<AppCubit, AppStates>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          return AdvancedDrawer(
-            backdropColor: HexColor('#21618C'),
-            controller: _advancedDrawerController,
-            animationCurve: Curves.easeInOut,
-            animationDuration: const Duration(milliseconds: 300),
-            animateChildDecoration: true,
-            rtlOpening: false,
-            // openScale: 1.0,
-            disabledGestures: false,
-            childDecoration: const BoxDecoration(
-              // NOTICE: Uncomment if you want to add shadow behind the page.
-              // Keep in mind that it may cause animation jerks.
-              // boxShadow: <BoxShadow>[
-              //   BoxShadow(
-              //     color: Colors.black12,
-              //     blurRadius: 0.0,
-              //   ),
-              // ],
-              borderRadius: BorderRadius.all(Radius.circular(16)),
-            ),
-            drawer: SafeArea(
-              child: Container(
-                child: ListTileTheme(
-                  textColor: Colors.white,
-                  iconColor: Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.all(30.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-
-                        const Spacer(),
+  void initState() {
+    super.initState();
+    futureFiles = FirebaseStorage.instance.ref('/files').list();
+  }
 
 
-                        //تسجيل خروج من الايميل
-                        ListTile(
-                          onTap: () {
-                            logOut(context);
-                          },
-                          leading: const Icon(IconBroken.Logout,),
-                          title: const Text(' تسجيل الخروج ',),
-                        ),
-                        const SizedBox(height: 16),
+  Future downloadFile(int index,Reference ref)async{
 
+    final url=await ref.getDownloadURL();
+    final tempDir= await getTemporaryDirectory();
+    final path ='${tempDir.path}/${ref.name}';
+    await Dio().download(
+        url,
+        path,
+      onReceiveProgress: (received , total){
+          double progress= received /total ;
+          setState(() {
+            downloadProgress[index]=progress;
+          });
+      }
 
-                        const Spacer(),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            child: Scaffold(
-              appBar: AppBar(
-                leading: IconButton(
-                  onPressed: _handleMenuButtonPressed,
-                  icon: ValueListenableBuilder<AdvancedDrawerValue>(
-                    valueListenable: _advancedDrawerController,
-                    builder: (_, value, __) {
-                      return AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 250),
-                        child: Icon(
-                          value.visible ? IconBroken.Close_Square : IconBroken
-                              .More_Square,
-                          key: ValueKey<bool>(value.visible),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
-              body: const Center(
-                child: SingleChildScrollView(
-                  physics: BouncingScrollPhysics(),
-                  child: Text(
-                    'Home Screen',
-                    style: TextStyle(
-                      fontSize: 20.0,
-                    ),
-                  ),
-                ),
-              ),
-
-            ),
-          );
-        },
-      ),
     );
+    if(url.contains('.mp4')){
+      await GallerySaver.saveVideo( path ,toDcim: true);
+    }
+    else if(url.contains('.jpg')){
+      await GallerySaver.saveImage( path ,toDcim: true);
+    }
+    else if(url.contains('.png')){
+      await GallerySaver.saveImage( path ,toDcim: true);
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content:Text('download ${ref.name}') )
+    );
+
   }
 
-  void _handleMenuButtonPressed() {
-    // NOTICE: Manage Advanced Drawer state through the Controller.
-    // _advancedDrawerController.value = AdvancedDrawerValue.visible();
-    _advancedDrawerController.showDrawer();
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(),
+        body: FutureBuilder<ListResult>(
+          future: futureFiles,
+          builder: (context, snapShot) {
+            if (snapShot.hasData) {
+              final files = snapShot.data!.items;
+              return ListView.builder(
+                  itemCount: files.length,
+                  itemBuilder: (context, index) {
+                    final file = files[index];
+                    double? progress=downloadProgress[index];
+
+                    return ListTile(
+                      title: Text(file.name),
+                      subtitle: progress != null?
+                          LinearProgressIndicator(
+                            value: progress,
+                            backgroundColor: Colors.black26,
+                          )
+                      : null ,
+
+                      trailing: IconButton(
+                        icon: const Icon(
+                            Icons.download
+                        ),
+                        onPressed: () {
+                          downloadFile(index, file);
+                        },
+                      ),
+                    );
+                  }
+              );
+            } else if (snapShot.hasError) {
+              return const Center(child: Text('Error Occurred'));
+            } else {
+              return const Center(child: CircularProgressIndicator());
+            }
+          },
+
+        )
+
+    );
+
+
   }
 
+
 }
-
-logOut(context) async {
-  await FirebaseAuth.instance.signOut();
-  navigateAndFinish(context, LoginScreen());
-}
-
-

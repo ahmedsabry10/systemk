@@ -23,16 +23,14 @@ class FacebookLogin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-          body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Center(
-                child: ElevatedButton(
-                    onPressed: () async {
-                      await signInWithFacebook();
-                    },
-                    child: const Text("signIn With FaceBook"))),
-          ])),
-    );
+    return Scaffold(
+        body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Center(
+              child: ElevatedButton(
+                  onPressed: () async {
+                    await signInWithFacebook();
+                  },
+                  child: const Text("signIn With FaceBook"))),
+        ]));
   }
 }

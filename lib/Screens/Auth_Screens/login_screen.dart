@@ -1,14 +1,17 @@
 
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:systemk/Data/Cubit/Home_Cubit/app_cubit.dart';
 import 'package:systemk/Data/Cubit/Login_Cubit/login_states.dart';
 import 'package:systemk/Data/Shared/Constent/constent.dart';
 import 'package:systemk/Data/Shared/Network/cache_helper.dart';
 import 'package:systemk/Data/Shared/Styles/icon_broken.dart';
 import 'package:systemk/Screens/Auth_Screens/register_screen.dart';
+import 'package:systemk/test/mainpage.dart';
 
 import '../../Data/Cubit/Login_Cubit/login_cubit.dart';
 import '../../Data/Shared/Component/reusable_component.dart';
@@ -23,6 +26,23 @@ class LoginScreen extends StatelessWidget {
 
   var emailController =TextEditingController();
   var passwordController =TextEditingController();
+
+
+  //todo  add the package to pubspec.yaml
+  //*flutter_facebook_auth: '^3.5.0'
+
+  Future<UserCredential> signInWithFacebook() async {
+    // Trigger the sign-in flow
+    final LoginResult loginResult = await FacebookAuth.instance.login();
+
+    // Create a credential from the access token
+    final OAuthCredential facebookAuthCredential =
+    FacebookAuthProvider.credential(loginResult.accessToken!.token);
+
+    // Once signed in, return the UserCredential
+    return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -52,7 +72,7 @@ class LoginScreen extends StatelessWidget {
               uId= state.uId;
               navigateAndFinish(
                 context,
-                HomeScreen(),
+                MainPage(),
               );
 
               AppCubit.get(context).getUserData();
@@ -266,6 +286,15 @@ class LoginScreen extends StatelessWidget {
                         const SizedBox(
                           height: 20.0,
                         ),
+                        const SizedBox(
+                          height: 20.0,
+                        ),
+
+                        ElevatedButton(
+                            onPressed: () async {
+                              await signInWithFacebook();
+                            },
+                            child: const Text("signIn With FaceBook"))
 
 
                       ],
