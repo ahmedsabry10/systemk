@@ -19,40 +19,24 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  await CacheHelper.init();
-  Widget widget;
-
-  uId = CacheHelper.getData(key: 'uId');
-  if(uId != null)
-  {
-    widget = HomeScreen();
-  } else
-  {
-    widget = LoginScreen();
-  }
 
 
-  runApp(MyApp(
-    startWidget:widget,
 
-  ));
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
 
 
-  final Widget startWidget;
 
-  MyApp({
-    required this.startWidget,
-  });
+  MyApp();
 
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context)=>AppCubit()..getUserData(),
+      create: (BuildContext context)=>AppCubit(),
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(

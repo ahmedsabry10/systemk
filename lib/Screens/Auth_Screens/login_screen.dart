@@ -63,20 +63,11 @@ class LoginScreen extends StatelessWidget {
               text: "تم تسجيل الدخول بنجاح",
               state: ToastStates.SUCCESS,
             );
-            CacheHelper.saveData(
-              key: 'uId',
-              value: state.uId,
-              //token= state.loginModel.data.token;
-            ).then((value)
-            {
-              uId= state.uId;
-              navigateAndFinish(
+            navigateAndFinish(
                 context,
                 MainPage(),
-              );
+            );
 
-              AppCubit.get(context).getUserData();
-            });
           }
         },
         builder: (context, state){

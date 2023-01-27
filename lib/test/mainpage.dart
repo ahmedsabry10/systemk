@@ -2,11 +2,11 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:systemk/Data/Shared/Component/reusable_component.dart';
 import 'package:systemk/Screens/Auth_Screens/login_screen.dart';
@@ -14,7 +14,6 @@ import 'package:systemk/TestDownload/download_home.dart';
 import 'package:systemk/test/api.dart';
 import 'package:systemk/test/buttom_widget.dart';
 
-import '../Screens/Home_Screens/home_screen.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -40,10 +39,24 @@ class _MainPageState extends State<MainPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ButtonWidget(
-                    text: 'Select File',
-                    icon: Icons.attach_file,
-                    onClicked: selectFile,
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ButtonWidget(
+                          text: 'Cam',
+                          icon: Icons.camera_alt,
+                          onClicked: selectCameraFile,
+                        ),
+                      ),
+                      SizedBox( width: 8.0,),
+                      Expanded(
+                        child: ButtonWidget(
+                          text: 'File',
+                          icon: Icons.attach_file,
+                          onClicked: selectFile,
+                        ),
+                      ),
+                    ],
                   ),
                   SizedBox(height: 20 ),
                   Text(
@@ -51,6 +64,20 @@ class _MainPageState extends State<MainPage> {
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                   ),
                   SizedBox(height: 30),
+
+                  /*
+                  Container(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                        onPressed: uploadFile,
+                        child: Text(
+                            'Upload File'
+                        )),
+                  ),
+
+
+                   */
+
                   ButtonWidget(
                     text: 'Upload File',
                     icon: Icons.cloud_upload_outlined,
@@ -105,6 +132,15 @@ class _MainPageState extends State<MainPage> {
     final path = result.files.single.path!;
 
     setState(() => file = File(path));
+  }
+
+  Future selectCameraFile()async{
+    final XFile? pickedFile = await ImagePicker().pickImage(source:
+    ImageSource.camera); //This opens the gallery and lets the user pick the image
+    if (pickedFile == null) return; //Checks if the user did actually pick something
+
+    setState(() => file = File(pickedFile.path));
+
   }
 
   Future uploadFile() async {
