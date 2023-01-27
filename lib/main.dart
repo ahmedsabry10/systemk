@@ -1,23 +1,15 @@
 
 import 'package:camera/camera.dart';
-import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:systemk/Data/Cubit/Home_Cubit/app_cubit.dart';
-import 'package:systemk/Data/Shared/Network/cache_helper.dart';
 import 'package:systemk/FaceTest/page/face_recognition/camera_page.dart';
 import 'package:systemk/FaceTest/page/login_page.dart';
 import 'package:systemk/FaceTest/utils/local_db.dart';
-import 'package:systemk/Screens/Auth_Screens/login_screen.dart';
-import 'package:systemk/Screens/Home_Screens/home_screen.dart';
-import 'package:systemk/Screens/views/face.dart';
-import 'package:systemk/Screens/views/home_views.dart';
-import 'package:systemk/test/mainpage.dart';
 
-import 'Data/Shared/Constent/constent.dart';
 
 void main() async {
 

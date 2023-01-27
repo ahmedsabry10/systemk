@@ -66,15 +66,19 @@ class _LoginPageState extends State<LoginPage> {
     required IconData icon,
     required VoidCallback onClicked,
   }) =>
-      ElevatedButton.icon(
-        style: ElevatedButton.styleFrom(
-          minimumSize: const Size.fromHeight(50),
+      Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: Colors.grey[600]?.withOpacity(0.5),
+          borderRadius: BorderRadius.circular(16),
         ),
-        icon: Icon(icon, size: 26),
-        label: Text(
-          text,
-          style: const TextStyle(fontSize: 20),
+        child: MaterialButton(
+
+          child: Text(
+            text,
+            style: const TextStyle(fontSize: 20),
+          ),
+          onPressed: onClicked,
         ),
-        onPressed: onClicked,
       );
 }

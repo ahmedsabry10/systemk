@@ -7,8 +7,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:systemk/Data/Models/users.dart';
 import 'package:systemk/FaceTest/page/face_recognition/ml_service.dart';
-import 'package:systemk/FaceTest/page/home_page.dart';
 import 'package:systemk/FaceTest/widgets/common_widgets.dart';
+import 'package:systemk/Screens/FingerAuth/home_views.dart';
 
 List<CameraDescription>? cameras;
 
@@ -96,7 +96,7 @@ class _FaceScanScreenState extends State<FaceScanScreen> {
           print("Unknown User");
         } else {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const HomePage()));
+              MaterialPageRoute(builder: (context) => const HomeView()));
         }
       }
     }
@@ -161,10 +161,17 @@ class _FaceScanScreenState extends State<FaceScanScreen> {
                           width: MediaQuery.of(context).size.width * 0.7),
                     ),
                   ),
-                  TextField(
-                    controller: controller,
-                    decoration: const InputDecoration(
-                        fillColor: Colors.white, filled: true),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+
+                      controller: controller,
+                      decoration: InputDecoration(
+
+                          fillColor: Colors.grey[600]?.withOpacity(0.5),
+
+                          filled: true),
+                    ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
