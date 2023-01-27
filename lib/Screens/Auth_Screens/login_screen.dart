@@ -283,21 +283,60 @@ class LoginScreen extends StatelessWidget {
                           ],
                         ),
 
+
                         const SizedBox(
-                          height: 20.0,
-                        ),
-                        const SizedBox(
-                          height: 20.0,
+                          height: 10.0,
                         ),
 
-                        ElevatedButton(
-                            onPressed: () async {
-                              await signInWithFacebook();
-                            },
-                            child: const Text("signIn With FaceBook"))
 
 
-                      ],
+
+
+                    TextButton(
+                      onPressed: () async {
+                        await signInWithFacebook();
+                      },
+                      child: Text(
+                        'Sign With Facebook'.toUpperCase(),
+                        style: TextStyle(
+                            fontSize: 14.0,
+                            color: Colors.blue,
+                            fontStyle: FontStyle.italic
+                        ),
+
+                        ),
+                    ),
+
+                          /*
+                          Stack(
+                            alignment: AlignmentDirectional.center,
+                            children: [
+                              CircleAvatar(
+                                radius: 35,
+                                backgroundColor: Colors.blue,),
+                              CircleAvatar(
+                                radius: 30,
+                                backgroundColor: Colors.white,
+                                child: MaterialButton(
+                                    onPressed: () async {
+                                      await signInWithFacebook();
+                                    },
+                                    child: const Image(
+                                      height: 45,
+                                      image:NetworkImage(
+                                        'https://play-lh.googleusercontent.com/5pZMqQYClc5McEjaISPkvhF8pDmlbLqraTMwk1eeqTlnUSjVxPCq-MItIrJPJGe7xW4'
+                                      ),)
+                                    ),
+                              ),
+
+                            ],
+                          ),
+
+
+                           */
+
+
+                        ],
                     ),
                   ),
                 ),

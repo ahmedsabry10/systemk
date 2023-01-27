@@ -97,7 +97,7 @@ class MyApp extends StatelessWidget {
             fontFamily: 'Jannah'
         ),
         debugShowCheckedModeBanner: false,
-        home: LoginScreen(),
+        home: HomeView(),
       ),
     );
   }

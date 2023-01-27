@@ -66,6 +66,7 @@ dependencies:
   gallery_saver: ^2.3.2
   file_picker:
   firebase_app_check: ^0.0.9+1
+  flutter_cached_pdfview:
 
 
 dev_dependencies:

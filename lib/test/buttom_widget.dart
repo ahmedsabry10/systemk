@@ -13,12 +13,17 @@ class ButtonWidget extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => ElevatedButton(
-    style: ElevatedButton.styleFrom(
-      minimumSize: Size.fromHeight(50),
+  Widget build(BuildContext context) => Container(
+    width: double.infinity,
+    decoration: BoxDecoration(
+      color: Colors.grey[600]?.withOpacity(0.5),
+      borderRadius: BorderRadius.circular(16),
     ),
-    child: buildContent(),
-    onPressed: onClicked,
+    child: MaterialButton(
+
+      child: buildContent(),
+      onPressed: onClicked,
+    ),
   );
 
   Widget buildContent() => Row(

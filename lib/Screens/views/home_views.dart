@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:systemk/Data/Shared/Component/reusable_component.dart';
 import 'package:systemk/Screens/Auth_Screens/login.dart';
+import 'package:systemk/Screens/Auth_Screens/login_screen.dart';
 import 'package:systemk/Screens/helpers/helper.dart';
 
 
@@ -28,7 +29,6 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.teal,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -46,7 +46,7 @@ class _HomeViewState extends State<HomeView> {
                   isAuthenticated = await BiometricHelper().authenticate();
                   setState(() {
                     if (isAuthenticated)
-                      navigateTo(context, FacebookLogin());
+                      navigateAndFinish(context, LoginScreen());
 
                   });
                 },

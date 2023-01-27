@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
@@ -8,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:systemk/Data/Shared/Component/reusable_component.dart';
+import 'package:systemk/Screens/Auth_Screens/login_screen.dart';
 import 'package:systemk/TestDownload/download_home.dart';
 import 'package:systemk/test/api.dart';
 import 'package:systemk/test/buttom_widget.dart';
@@ -43,12 +45,12 @@ class _MainPageState extends State<MainPage> {
                     icon: Icons.attach_file,
                     onClicked: selectFile,
                   ),
-                  SizedBox(height: 8),
+                  SizedBox(height: 20 ),
                   Text(
                     fileName,
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                   ),
-                  SizedBox(height: 48),
+                  SizedBox(height: 30),
                   ButtonWidget(
                     text: 'Upload File',
                     icon: Icons.cloud_upload_outlined,
@@ -59,11 +61,29 @@ class _MainPageState extends State<MainPage> {
 
                   SizedBox(height: 20.0,),
                   ButtonWidget(
-                      icon: Icons.download,
-                      text: "Download",
+                      icon: Icons.file_copy,
+                      text: "Show Files",
                       onClicked: (){
                         navigateTo(context, DownloadMainPage());
-                      })
+                      }),
+                  SizedBox(height: 20.0,),
+                  Row(
+                    children: [
+                      Spacer(),
+                      TextButton(
+                          onPressed: (){
+                       _signOut();
+                       navigateAndFinish(context, LoginScreen());
+
+                      },
+                          child: Text(
+                            'SignOut',
+                            style: TextStyle(
+                              color: Colors.blue
+                            ),
+                          )),
+                    ],
+                  )
                 ],
               ),
             ),
@@ -72,6 +92,11 @@ class _MainPageState extends State<MainPage> {
       ),
     );
   }
+
+  Future<void> _signOut() async {
+    await FirebaseAuth.instance.signOut();
+  }
+
 
   Future selectFile() async {
     final result = await FilePicker.platform.pickFiles(allowMultiple: false);

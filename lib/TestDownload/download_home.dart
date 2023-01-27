@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:systemk/TestDownload/download_api.dart';
 import 'package:systemk/TestDownload/image_page.dart';
 import 'package:systemk/TestDownload/model.dart';
+import 'package:systemk/TestDownload/pdfviewr.dart';
 
 class DownloadMainPage extends StatefulWidget {
   @override
@@ -67,44 +68,63 @@ class _DownloadMainPageState extends State<DownloadMainPage> {
     ),
   );
 
-  Widget buildFile(BuildContext context, FirebaseFile file) => ListTile(
-    leading: ClipOval(
-      child: Image.network(
-        file.url,
-        width: 52,
-        height: 52,
-        fit: BoxFit.cover,
+  Widget buildFile(BuildContext context, FirebaseFile file) => Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: ListTile(
+      leading: ClipOval(
+        child:
+
+        file.url.contains( '.pdf')
+             ?
+        Image.network(
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoEiPihPI2dvUX1smKI175sDLRkIjdbWr2Kw&usqp=CAU',
+          width: 52,
+          height: 52,
+          fit: BoxFit.cover,
+        ): Image.network(
+          file.url,
+          width: 52,
+          height: 52,
+          fit: BoxFit.cover,
+        )
+        ,
       ),
-    ),
-    title: Text(
-      file.name,
-      style: TextStyle(
-        fontWeight: FontWeight.bold,
-        decoration: TextDecoration.underline,
-        color: Colors.blue,
+      title: Text(
+        file.name,
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          decoration: TextDecoration.underline,
+          color: Colors.blue,
+        ),
       ),
-    ),
-    onTap: () => Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => ImagePage(file: file),
+      onTap: () =>  file.url.contains( '.pdf')? Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => PdfViewer("${file.url}") ,
+      )): Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) =>ImagePage(file: file) ,),
     )),
   );
 
-  Widget buildHeader(int length) => ListTile(
-    tileColor: Colors.grey[100],
-    leading: Container(
-      width: 52,
-      height: 52,
-      child: Icon(
-        Icons.file_copy,
-        color: Colors.blue,
-      ),
+  Widget buildHeader(int length) => Container(
+    decoration: BoxDecoration(
+      color: Colors.grey[600]?.withOpacity(0.5),
+      borderRadius: BorderRadius.circular(16),
     ),
-    title: Text(
-      '$length Files',
-      style: TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: 20,
-        color: Colors.blue,
+    child: ListTile(
+      leading: Container(
+        width: 52,
+        height: 52,
+        child: Icon(
+          Icons.file_copy,
+          color: Colors.white,
+        ),
+      ),
+      title: Text(
+        '$length Files',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 20,
+          color: Colors.white,
+        ),
       ),
     ),
   );
